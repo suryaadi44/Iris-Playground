@@ -17,3 +17,4 @@
 # ignore iris project file
 .iris.yml
 /tmp
+/config
