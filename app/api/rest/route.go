@@ -15,7 +15,7 @@ import (
 
 func InitRoute(app *iris.Application, db *gorm.DB, conf *viper.Viper) {
 	validator := validator.NewValidator()
-	hasher := password.NewArgon2Hasher()
+	hasher := password.NewArgon2idHasher()
 	ur := repository.NewUserRepositoryImpl(db)
 	us := service.NewUserServiceImpl(ur, hasher)
 	uc := controller.NewUserController(us, validator)

@@ -23,7 +23,7 @@ func NewUserServiceImpl(userRepository repository.UserRepository, hasher passwor
 }
 
 func (s *UserServiceImpl) SignUp(ctx context.Context, user *dto.UserSignUpRequest) error {
-	hashedPassword, err := s.hasher.GenerateFromPassword(user.Password, password.DefaultParams)
+	hashedPassword, err := s.hasher.GeneratePassword(user.Password)
 	if err != nil {
 		log.Println("[User] Failed to hash password: ", err)
 		return err
@@ -52,13 +52,13 @@ func (s *UserServiceImpl) LogIn(ctx context.Context, user *dto.UserLoginRequest)
 		return err
 	}
 
-	isCorrect, err := s.hasher.CompareHashAndPassword(userEntity.Password, user.Password)
+	match, err := s.hasher.VerifyPassword(user.Password, userEntity.Password)
 	if err != nil {
 		log.Println("[User] Failed to compare password: ", err)
 		return err
 	}
 
-	if !isCorrect {
+	if !match {
 		return response.ErrInvalidEmailOrPassword
 	}
 
