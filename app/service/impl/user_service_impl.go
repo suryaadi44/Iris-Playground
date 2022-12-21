@@ -1,0 +1,66 @@
+package impl
+
+import (
+	"context"
+	"log"
+	"suryaadi44/iris-playground/app/dto"
+	"suryaadi44/iris-playground/app/repository"
+	"suryaadi44/iris-playground/app/service"
+	"suryaadi44/iris-playground/utils/password"
+	"suryaadi44/iris-playground/utils/response"
+)
+
+type UserServiceImpl struct {
+	ur     repository.UserRepository
+	hasher password.Hasher
+}
+
+func NewUserServiceImpl(userRepository repository.UserRepository, hasher password.Hasher) service.UserService {
+	return &UserServiceImpl{
+		ur:     userRepository,
+		hasher: hasher,
+	}
+}
+
+func (s *UserServiceImpl) SignUp(ctx context.Context, user *dto.UserSignUpRequest) error {
+	hashedPassword, err := s.hasher.GenerateFromPassword(user.Password, password.DefaultParams)
+	if err != nil {
+		log.Println("[User] Failed to hash password: ", err)
+		return err
+	}
+
+	user.Password = hashedPassword
+	userEntity := user.ToEntity()
+
+	err = s.ur.AddUser(ctx, userEntity)
+	if err != nil {
+		log.Println("[User] Failed to add user: ", err)
+		return err
+	}
+
+	return nil
+}
+
+func (s *UserServiceImpl) LogIn(ctx context.Context, user *dto.UserLoginRequest) error {
+	userEntity, err := s.ur.FindByEmail(ctx, user.Email)
+	if err != nil {
+		if err == response.ErrUserNotFound {
+			return response.ErrInvalidEmailOrPassword
+		}
+
+		log.Println("[User] Failed to find user: ", err)
+		return err
+	}
+
+	isCorrect, err := s.hasher.CompareHashAndPassword(userEntity.Password, user.Password)
+	if err != nil {
+		log.Println("[User] Failed to compare password: ", err)
+		return err
+	}
+
+	if !isCorrect {
+		return response.ErrInvalidEmailOrPassword
+	}
+
+	return nil
+}
