@@ -11,19 +11,17 @@ import (
 )
 
 type UserServiceImpl struct {
-	ur     repository.UserRepository
-	hasher password.Hasher
+	ur repository.UserRepository
 }
 
-func NewUserServiceImpl(userRepository repository.UserRepository, hasher password.Hasher) service.UserService {
+func NewUserServiceImpl(userRepository repository.UserRepository) service.UserService {
 	return &UserServiceImpl{
-		ur:     userRepository,
-		hasher: hasher,
+		ur: userRepository,
 	}
 }
 
 func (s *UserServiceImpl) SignUp(ctx context.Context, user *dto.UserSignUpRequest) error {
-	hashedPassword, err := s.hasher.GeneratePassword(user.Password)
+	hashedPassword, err := password.GeneratePassword(user.Password)
 	if err != nil {
 		log.Println("[User] Failed to hash password: ", err)
 		return err
@@ -52,7 +50,7 @@ func (s *UserServiceImpl) LogIn(ctx context.Context, user *dto.UserLoginRequest)
 		return err
 	}
 
-	match, err := s.hasher.VerifyPassword(user.Password, userEntity.Password)
+	match, err := password.VerifyPassword(user.Password, userEntity.Password)
 	if err != nil {
 		log.Println("[User] Failed to compare password: ", err)
 		return err
