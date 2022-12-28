@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  service:
+    container_name: service
+    build:
+      context: .
+      target: dev
+    volumes:
+    - .:/app:rw,delegated
+    networks:
+    - my_network
+    ports:
+    - 8000:8000
+    - 2345:2345
+
+networks:
+  my_network:
+    name: my_network
