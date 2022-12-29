@@ -6,7 +6,7 @@ import (
 	"net"
 	"suryaadi44/iris-playground/app/api/rest"
 	"suryaadi44/iris-playground/utils/config"
-	"suryaadi44/iris-playground/utils/database/sql"
+	"suryaadi44/iris-playground/utils/database/postgresql"
 	"suryaadi44/iris-playground/utils/shutdown"
 
 	"time"
@@ -26,12 +26,12 @@ func main() {
 	}
 	time.Local = local
 
-	db := sql.InitDatabase(
-		config.GetString("database.host"),
-		config.GetInt("database.port"),
-		config.GetString("database.user"),
-		config.GetString("database.password"),
-		config.GetString("database.database"),
+	db := postgresql.InitDatabase(
+		config.GetString("database.postgres.host"),
+		config.GetInt("database.postgres.port"),
+		config.GetString("database.postgres.user"),
+		config.GetString("database.postgres.password"),
+		config.GetString("database.postgres.database"),
 		config.GetString("timezone"),
 	)
 

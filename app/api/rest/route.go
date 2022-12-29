@@ -3,7 +3,7 @@ package rest
 import (
 	"suryaadi44/iris-playground/app/api/rest/controller"
 	repository "suryaadi44/iris-playground/app/repository/impl"
-	service "suryaadi44/iris-playground/app/service/impl"
+	service "suryaadi44/iris-playground/app/usecase/impl"
 	"suryaadi44/iris-playground/utils/response"
 	"suryaadi44/iris-playground/utils/validator"
 

@@ -4,8 +4,9 @@ host: 0.0.0.0
 port: 8000
 
 database:
-  host: localhost
-  port: 6969
-  user: root
-  password: root
-  database: root
+  postgres:
+    host: localhost
+    port: 6969
+    user: root
+    password: root
+    database: root

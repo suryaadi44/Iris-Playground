@@ -2,7 +2,7 @@ package controller
 
 import (
 	"suryaadi44/iris-playground/app/dto"
-	"suryaadi44/iris-playground/app/service"
+	service "suryaadi44/iris-playground/app/usecase"
 	"suryaadi44/iris-playground/utils/response"
 	"suryaadi44/iris-playground/utils/validator"
 
@@ -39,7 +39,7 @@ func (c *UserController) SignUp(ctx iris.Context) {
 		return
 	}
 
-	err := c.us.SignUp(ctx, req)
+	err := c.us.SignUp(ctx.Request().Context(), req)
 	if err != nil {
 		switch err {
 		case response.ErrDuplicateEmail:
@@ -81,7 +81,7 @@ func (c *UserController) LogIn(ctx iris.Context) {
 		return
 	}
 
-	err := c.us.LogIn(ctx, req)
+	err := c.us.LogIn(ctx.Request().Context(), req)
 	if err != nil {
 		switch err {
 		case response.ErrInvalidEmailOrPassword:
