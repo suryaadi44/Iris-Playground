@@ -3,13 +3,12 @@ package validator
 import (
 	"reflect"
 	"strings"
-	"suryaadi44/iris-playground/utils/response"
 
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"
-	en_trans "github.com/go-playground/validator/v10/translations/en"
-
 	validation "github.com/go-playground/validator/v10"
+	en_trans "github.com/go-playground/validator/v10/translations/en"
+	"suryaadi44/iris-playground/utils/response"
 )
 
 type Validator interface {
@@ -57,7 +56,7 @@ func (c *CustomValidator) ValidateStruct(s interface{}) *response.ErrorValues {
 
 func (c *CustomValidator) ValidateJSON(s interface{}) *response.ErrorValues {
 	c.Validate.RegisterTagNameFunc(func(fld reflect.StructField) string {
-		name := strings.SplitN(fld.Tag.Get("json"), ",", 2)[0]
+		name := strings.SplitN(fld.Tag.Get("json"), ",", 1)[0]
 		if name == "-" {
 			return ""
 		}
@@ -65,23 +64,4 @@ func (c *CustomValidator) ValidateJSON(s interface{}) *response.ErrorValues {
 	})
 
 	return c.ValidateStruct(s)
-}
-
-func (c *CustomValidator) addTranslation(tag string, message string) {
-	registerFn := func(ut ut.Translator) error {
-		return ut.Add(tag, message, true)
-	}
-
-	transFn := func(ut ut.Translator, fe validation.FieldError) string {
-		param := fe.Param()
-		tag := fe.Tag()
-
-		t, err := ut.T(tag, fe.Field(), param)
-		if err != nil {
-			return fe.(error).Error()
-		}
-		return t
-	}
-
-	_ = c.Validate.RegisterTranslation(tag, c.trans, registerFn, transFn)
 }

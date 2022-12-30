@@ -1,12 +1,11 @@
 package controller
 
 import (
+	"github.com/kataras/iris/v12"
 	"suryaadi44/iris-playground/app/dto"
 	service "suryaadi44/iris-playground/app/usecase"
 	"suryaadi44/iris-playground/utils/response"
 	"suryaadi44/iris-playground/utils/validator"
-
-	"github.com/kataras/iris/v12"
 )
 
 type UserController struct {
@@ -26,7 +25,7 @@ func (c *UserController) SignUp(ctx iris.Context) {
 	if err := ctx.ReadJSON(req); err != nil {
 		ctx.StopWithJSON(iris.StatusBadRequest,
 			response.NewErrorResponse(
-				response.RESPONSE_INVALID_REQUEST,
+				response.ResponseInvalidRequest,
 				*response.NewErrorValue("request body", err.Error()),
 			),
 		)
@@ -35,7 +34,7 @@ func (c *UserController) SignUp(ctx iris.Context) {
 
 	if errs := c.validator.ValidateJSON(req); errs != nil {
 		ctx.StopWithJSON(iris.StatusBadRequest,
-			response.NewBaseResponse(response.RESPONSE_VALIDATION_ERROR, nil, *errs))
+			response.NewBaseResponse(response.ResponseValidationError, nil, *errs))
 		return
 	}
 
@@ -45,14 +44,14 @@ func (c *UserController) SignUp(ctx iris.Context) {
 		case response.ErrDuplicateEmail:
 			ctx.StopWithJSON(iris.StatusConflict,
 				response.NewErrorResponse(
-					response.RESPONSE_BUSINESS_LOGIC_ERROR,
+					response.ResponseBusinessLogicError,
 					*response.NewErrorValue("email", err.Error()),
 				),
 			)
 		default:
 			ctx.StopWithJSON(iris.StatusInternalServerError,
 				response.NewErrorResponse(
-					response.RESPONSE_RUNTIME_ERROR,
+					response.ResponseRuntimeError,
 					*response.NewErrorValue("server error", err.Error()),
 				),
 			)
@@ -60,7 +59,7 @@ func (c *UserController) SignUp(ctx iris.Context) {
 		return
 	}
 
-	ctx.JSON(response.NewBaseResponse(response.RESPONSE_SUCCESS, nil, nil))
+	ctx.JSON(response.NewBaseResponse(response.ResponseSuccess, nil, nil))
 }
 
 func (c *UserController) LogIn(ctx iris.Context) {
@@ -68,7 +67,7 @@ func (c *UserController) LogIn(ctx iris.Context) {
 	if err := ctx.ReadJSON(req); err != nil {
 		ctx.StopWithJSON(iris.StatusBadRequest,
 			response.NewErrorResponse(
-				response.RESPONSE_INVALID_REQUEST,
+				response.ResponseInvalidRequest,
 				*response.NewErrorValue("request body", err.Error()),
 			),
 		)
@@ -77,7 +76,7 @@ func (c *UserController) LogIn(ctx iris.Context) {
 
 	if errs := c.validator.ValidateJSON(req); errs != nil {
 		ctx.StopWithJSON(iris.StatusBadRequest,
-			response.NewBaseResponse(response.RESPONSE_VALIDATION_ERROR, nil, *errs))
+			response.NewBaseResponse(response.ResponseValidationError, nil, *errs))
 		return
 	}
 
@@ -87,14 +86,14 @@ func (c *UserController) LogIn(ctx iris.Context) {
 		case response.ErrInvalidEmailOrPassword:
 			ctx.StopWithJSON(iris.StatusUnauthorized,
 				response.NewErrorResponse(
-					response.RESPONSE_BUSINESS_LOGIC_ERROR,
+					response.ResponseBusinessLogicError,
 					*response.NewErrorValue("email or password", err.Error()),
 				),
 			)
 		default:
 			ctx.StopWithJSON(iris.StatusInternalServerError,
 				response.NewErrorResponse(
-					response.RESPONSE_RUNTIME_ERROR,
+					response.ResponseRuntimeError,
 					*response.NewErrorValue("server error", err.Error()),
 				),
 			)
@@ -102,5 +101,6 @@ func (c *UserController) LogIn(ctx iris.Context) {
 		return
 	}
 
-	ctx.JSON(response.NewBaseResponse(response.RESPONSE_SUCCESS, nil, nil))
+	a := response.ResponseSuccess
+	ctx.JSON(response.NewBaseResponse(a, nil, nil))
 }

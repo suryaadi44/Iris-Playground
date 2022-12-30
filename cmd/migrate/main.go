@@ -2,10 +2,11 @@ package main
 
 import (
 	"log"
+	"time"
+
 	"suryaadi44/iris-playground/app/entity"
 	"suryaadi44/iris-playground/utils/config"
 	"suryaadi44/iris-playground/utils/database/postgresql"
-	"time"
 )
 
 func main() {

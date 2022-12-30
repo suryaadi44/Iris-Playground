@@ -1,15 +1,14 @@
 package rest
 
 import (
+	"github.com/kataras/iris/v12"
+	"github.com/spf13/viper"
+	"gorm.io/gorm"
 	"suryaadi44/iris-playground/app/api/rest/controller"
 	repository "suryaadi44/iris-playground/app/repository/impl"
 	service "suryaadi44/iris-playground/app/usecase/impl"
 	"suryaadi44/iris-playground/utils/response"
 	"suryaadi44/iris-playground/utils/validator"
-
-	"github.com/kataras/iris/v12"
-	"github.com/spf13/viper"
-	"gorm.io/gorm"
 )
 
 func InitRoute(app *iris.Application, db *gorm.DB, conf *viper.Viper) {

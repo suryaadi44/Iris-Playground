@@ -4,14 +4,13 @@ import (
 	"context"
 	"log"
 	"net"
+	"time"
+
+	"github.com/kataras/iris/v12"
 	"suryaadi44/iris-playground/app/api/rest"
 	"suryaadi44/iris-playground/utils/config"
 	"suryaadi44/iris-playground/utils/database/postgresql"
 	"suryaadi44/iris-playground/utils/shutdown"
-
-	"time"
-
-	"github.com/kataras/iris/v12"
 )
 
 func main() {
