@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+option go_package = "github.com/suryaadi44/iris-playground/app/api/grpc/pb";
+
+message LogInRequest {
+    string email = 1;
+    string password = 2;
+}
+
+message LogInResponse {
+    string uid = 1;
+    string accessToken = 2;
+    string refreshToken = 3;
+    int64 permission = 4;
+}
+service Authenticate {
+    rpc LogIn(LogInRequest) returns (LogInResponse) {}
+}

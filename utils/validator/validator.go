@@ -3,7 +3,8 @@ package validator
 import (
 	"reflect"
 	"strings"
-	"suryaadi44/iris-playground/utils/response"
+
+	"github.com/suryaadi44/iris-playground/utils/response"
 
 	"github.com/go-playground/locales/en"
 	ut "github.com/go-playground/universal-translator"

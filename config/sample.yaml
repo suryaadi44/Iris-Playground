@@ -1,11 +1,18 @@
 timezone: "Asia/Makassar"
 shutdown_timeout: 10s
-host: 0.0.0.0
-port: 8000
+
+rest:
+  host: 0.0.0.0
+  port: 8000
+
+grpc:
+  host: 0.0.0.0
+  port: 9000
 
 database:
-  host: localhost
-  port: 6969
-  user: root
-  password: root
-  database: root
+  postgres:
+    host: localhost
+    port: 6969
+    user: root
+    password: root
+    database: root

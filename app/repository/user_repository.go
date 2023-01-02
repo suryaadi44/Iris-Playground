@@ -2,7 +2,8 @@ package repository
 
 import (
 	"context"
-	"suryaadi44/iris-playground/app/entity"
+
+	"github.com/suryaadi44/iris-playground/app/entity"
 )
 
 type UserRepository interface {

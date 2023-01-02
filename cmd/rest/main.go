@@ -4,10 +4,11 @@ import (
 	"context"
 	"log"
 	"net"
-	"suryaadi44/iris-playground/app/api/rest"
-	"suryaadi44/iris-playground/utils/config"
-	"suryaadi44/iris-playground/utils/database/sql"
-	"suryaadi44/iris-playground/utils/shutdown"
+
+	"github.com/suryaadi44/iris-playground/app/api/rest"
+	"github.com/suryaadi44/iris-playground/utils/config"
+	"github.com/suryaadi44/iris-playground/utils/database/postgresql"
+	"github.com/suryaadi44/iris-playground/utils/shutdown"
 
 	"time"
 
@@ -26,12 +27,12 @@ func main() {
 	}
 	time.Local = local
 
-	db := sql.InitDatabase(
-		config.GetString("database.host"),
-		config.GetInt("database.port"),
-		config.GetString("database.user"),
-		config.GetString("database.password"),
-		config.GetString("database.database"),
+	db := postgresql.InitDatabase(
+		config.GetString("database.postgres.host"),
+		config.GetInt("database.postgres.port"),
+		config.GetString("database.postgres.user"),
+		config.GetString("database.postgres.password"),
+		config.GetString("database.postgres.database"),
 		config.GetString("timezone"),
 	)
 
@@ -39,7 +40,7 @@ func main() {
 
 	rest.InitRoute(app, db, config)
 
-	listen := net.JoinHostPort(config.GetString("host"), config.GetString("port"))
+	listen := net.JoinHostPort(config.GetString("rest.host"), config.GetString("rest.port"))
 	go func() {
 		if err := app.Listen(listen, iris.WithoutInterruptHandler, iris.WithoutServerError(iris.ErrServerClosed)); err != nil {
 			log.Fatalf("[Server] Error running server: %v", err)
@@ -59,7 +60,7 @@ func main() {
 			}
 			return dbCon.Close()
 		},
-		"server": func(ctx context.Context) error {
+		"rest-server": func(ctx context.Context) error {
 			return app.Shutdown(ctx)
 		},
 	}

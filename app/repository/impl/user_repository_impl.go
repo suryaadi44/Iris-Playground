@@ -3,9 +3,10 @@ package impl
 import (
 	"context"
 	"errors"
-	"suryaadi44/iris-playground/app/entity"
-	"suryaadi44/iris-playground/app/repository"
-	"suryaadi44/iris-playground/utils/response"
+
+	"github.com/suryaadi44/iris-playground/app/entity"
+	"github.com/suryaadi44/iris-playground/app/repository"
+	"github.com/suryaadi44/iris-playground/utils/response"
 
 	"github.com/jackc/pgconn"
 	"gorm.io/gorm"

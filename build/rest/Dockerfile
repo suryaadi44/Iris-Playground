@@ -21,7 +21,7 @@ RUN go install github.com/cosmtrek/air@latest && go install github.com/go-delve/
 EXPOSE 8000
 EXPOSE 2345
 
-ENTRYPOINT ["air", "-c", ".air.toml"]
+ENTRYPOINT ["air", "-c", ".air.rest.toml"]
 
 ### Executable builder
 FROM base AS builder

@@ -1,20 +1,20 @@
 package controller
 
 import (
-	"suryaadi44/iris-playground/app/dto"
-	"suryaadi44/iris-playground/app/service"
-	"suryaadi44/iris-playground/utils/response"
-	"suryaadi44/iris-playground/utils/validator"
+	"github.com/suryaadi44/iris-playground/app/dto"
+	"github.com/suryaadi44/iris-playground/app/usecase"
+	"github.com/suryaadi44/iris-playground/utils/response"
+	"github.com/suryaadi44/iris-playground/utils/validator"
 
 	"github.com/kataras/iris/v12"
 )
 
 type UserController struct {
-	us        service.UserService
+	us        usecase.UserService
 	validator validator.Validator
 }
 
-func NewUserController(us service.UserService, validator validator.Validator) *UserController {
+func NewUserController(us usecase.UserService, validator validator.Validator) *UserController {
 	return &UserController{
 		us:        us,
 		validator: validator,
@@ -39,7 +39,7 @@ func (c *UserController) SignUp(ctx iris.Context) {
 		return
 	}
 
-	err := c.us.SignUp(ctx, req)
+	err := c.us.SignUp(ctx.Request().Context(), req)
 	if err != nil {
 		switch err {
 		case response.ErrDuplicateEmail:
@@ -81,7 +81,7 @@ func (c *UserController) LogIn(ctx iris.Context) {
 		return
 	}
 
-	err := c.us.LogIn(ctx, req)
+	token, err := c.us.LogIn(ctx.Request().Context(), req)
 	if err != nil {
 		switch err {
 		case response.ErrInvalidEmailOrPassword:
@@ -102,5 +102,9 @@ func (c *UserController) LogIn(ctx iris.Context) {
 		return
 	}
 
-	ctx.JSON(response.NewBaseResponse(response.RESPONSE_SUCCESS, nil, nil))
+	ctx.JSON(response.NewBaseResponse(
+		response.RESPONSE_SUCCESS,
+		token,
+		nil,
+	))
 }
