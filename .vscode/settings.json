@@ -1,3 +1,8 @@
 {
-    "editor.semanticHighlighting.enabled": true
+  "go.useLanguageServer": true,
+  "go.lintTool": "golangci-lint",
+  "go.lintFlags": [
+    "--fast",
+    "--fix",
+  ]
 }

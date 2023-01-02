@@ -1,0 +1,36 @@
+linters:
+  disable-all: true
+  enable:
+    - errcheck
+    - gosimple
+    - govet
+    - ineffassign
+    - staticcheck
+    - typecheck
+    - unused
+    - bidichk
+    - decorder
+    - dogsled
+    - gci
+    - gochecknoglobals
+    - goconst
+    - gochecknoinits
+    - gomnd
+    - importas
+    - revive
+    - unconvert
+    - unparam
+    - usestdlibvars
+    - whitespace
+    - prealloc
+    - nestif
+    - nakedret
+    - misspell
+    - makezero
+    - gosec
+
+issues:
+  exclude:
+    - ctx.JSON
+    - ctx.StopWithJSON
+  max-same-issues: 0

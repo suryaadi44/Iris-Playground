@@ -1,0 +1,23 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-merge-conflict
+  - repo: local
+    hooks:
+      - &go-mod-tidy
+        id: go-mod-tidy
+        name: go-mod-tidy
+        entry: go mod tidy
+        language: golang
+        pass_filenames: False
+      - &golangci-lint
+        id: golangci-lint
+        name: golangci-lint
+        entry: golangci-lint run --fix
+        language: golang
+        pass_filenames: False
