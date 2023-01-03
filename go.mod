@@ -12,7 +12,7 @@ require (
 	github.com/kataras/iris/v12 v12.2.0-beta6.0.20221220123946-37748f6a3dbd
 	github.com/spf13/viper v1.14.0
 	gorm.io/driver/postgres v1.4.5
-	gorm.io/gorm v1.24.2
+	gorm.io/gorm v1.24.3
 )
 
 require (
