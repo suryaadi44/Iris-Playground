@@ -1,6 +1,6 @@
 {
   "go.useLanguageServer": true,
-  "go.lintTool": "golangci-lint",
+  "go.lintTool": "",
   "go.lintFlags": [
     "--fast",
     "--fix",

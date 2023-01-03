@@ -11,7 +11,7 @@ linters:
     - bidichk
     - decorder
     - dogsled
-    - gci
+    # - gci
     - gochecknoglobals
     - goconst
     - gochecknoinits
