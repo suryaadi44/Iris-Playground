@@ -21,3 +21,9 @@ repos:
         entry: golangci-lint run --fix
         language: golang
         pass_filenames: False
+      - &golines
+        id: golines
+        name: golines
+        entry: golines -w -m 120 .
+        language: golang
+        pass_filenames: False
