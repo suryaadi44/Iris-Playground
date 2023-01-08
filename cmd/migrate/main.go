@@ -129,7 +129,14 @@ func inspectSchema(targetDb string, conf *viper.Viper) error {
 	// call atlas binary to get schema
 	// atlas schema inspect -u  "postgres://user:password@host:port/target_db?sslmode=disable" --exclude '*.schema_migrations' > schema.hcl
 
-	dbStr := fmt.Sprintf("\"postgres://%s:%s@%s:%d/%s?sslmode=disable\"", conf.GetString("database.postgres.user"), conf.GetString("database.postgres.password"), conf.GetString("database.postgres.host"), conf.GetInt("database.postgres.port"), targetDb)
+	dbStr := fmt.Sprintf(
+		"\"postgres://%s:%s@%s:%d/%s?sslmode=disable\"",
+		conf.GetString("database.postgres.user"),
+		conf.GetString("database.postgres.password"),
+		conf.GetString("database.postgres.host"),
+		conf.GetInt("database.postgres.port"),
+		targetDb,
+	)
 	inspectStr := fmt.Sprintf("atlas schema inspect -u %s --exclude \"*.schema_migrations\"", dbStr)
 	output, err := exec.Command("sh", "-c", inspectStr).Output()
 	if err != nil {
@@ -148,8 +155,19 @@ func generateMigrationFile(devDb string, name string, conf *viper.Viper) error {
 	// call atlas binary to generate migration file
 	// atlas migrate diff name --dir "file://migrations?format=golang-migrate"  --dev-url "postgres://user:password@host:port/target_db?sslmode=disable" --to "file://schema.hcl"
 
-	devStr := fmt.Sprintf("\"postgres://%s:%s@%s:%d/%s?sslmode=disable\"", conf.GetString("database.postgres.user"), conf.GetString("database.postgres.password"), conf.GetString("database.postgres.host"), conf.GetInt("database.postgres.port"), devDb)
-	diffStr := fmt.Sprintf("atlas migrate diff %s --dir \"file://migrations?format=golang-migrate\" --dev-url %s --to \"file://schema.hcl\"", name, devStr)
+	devStr := fmt.Sprintf(
+		"\"postgres://%s:%s@%s:%d/%s?sslmode=disable\"",
+		conf.GetString("database.postgres.user"),
+		conf.GetString("database.postgres.password"),
+		conf.GetString("database.postgres.host"),
+		conf.GetInt("database.postgres.port"),
+		devDb,
+	)
+	diffStr := fmt.Sprintf(
+		"atlas migrate diff %s --dir \"file://migrations?format=golang-migrate\" --dev-url %s --to \"file://schema.hcl\"",
+		name,
+		devStr,
+	)
 	output, err := exec.Command("sh", "-c", diffStr).Output()
 	if err != nil {
 		log.Printf("[Migrate] Error generating migration file: %s", output)
