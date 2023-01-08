@@ -1,7 +1,6 @@
 version: "3.8"
 services:
   rest:
-    container_name: rest
     build:
       context: .
       dockerfile: build/rest/Dockerfile
@@ -14,7 +13,6 @@ services:
     - 8000:8000
     - 2345:2345
   grpc:
-    container_name: grpc
     build:
       context: .
       dockerfile: build/grpc/Dockerfile
@@ -30,4 +28,4 @@ services:
 
 networks:
   my_network:
-    name: my_network
+    name: service_network
