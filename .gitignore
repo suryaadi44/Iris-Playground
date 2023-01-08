@@ -17,5 +17,5 @@
 # ignore iris project file
 .iris.yml
 /tmp
-/config
+/config/config.yaml
 schema.hcl
